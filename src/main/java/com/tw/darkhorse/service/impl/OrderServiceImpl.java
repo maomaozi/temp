@@ -76,23 +76,6 @@ public class OrderServiceImpl implements OrderService {
             .build();
     }
 
-    @Override
-    public void cancelOrder(Long orderId) {
-        Optional<TicketOrderEntity> orderOpt = orderRepository.findById(orderId);
-        if (orderOpt.isPresent()) {
-            TicketOrderEntity ticketOrderEntity = orderOpt.get();
-            ReleaseSeatRequest releaseSeatRequest = new ReleaseSeatRequest(ticketOrderEntity.getFlight(), ticketOrderEntity.getClassType(),
-                ticketOrderEntity.getPassengers().size());
-            boolean releaseSuccess = priceSeatManagerClient.releaseSeat(releaseSeatRequest);
-            if (releaseSuccess) {
-                ticketOrderEventRepository.save(TicketOrderEventEntity.builder().status(OrderStatusEnum.USER_CANCELLED.name()).build());
-                publish(ticketOrderEntity, OrderStatusEnum.USER_CANCELLED.name());
-            } else {
-                throw new BusinessException(ErrorCode.CANCEL_ORDER_EXCEPTION, "取消订单操作失败，请稍后再试");
-            }
-        }
-    }
-
     private void publish(TicketOrderEntity ticketOrderEntity, String status) {
         OrderMessage orderMessage = OrderMessage.from(ticketOrderEntity);
         orderMessage.setPassengerList(OrderMessage.transferPassenger(ticketOrderEntity.getPassengers()));
