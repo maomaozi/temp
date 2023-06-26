@@ -10,8 +10,6 @@ public interface OrderService {
 
     Order createOrder(CreateOrderDto createOrderDto);
 
-    void cancelOrder(Long orderId);
-
     List<Order> getOrders(Long userId);
 
     FlightDetail getFlightDetail(String flight);
