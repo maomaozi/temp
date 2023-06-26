@@ -33,10 +33,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
-    @PostMapping("/{orderId}/cancellation")
-    public void cancelOrder(@PathVariable("orderId") Long orderId) {
-        orderServiceImpl.cancelOrder(orderId);
-    }
 
     @GetMapping
     public List<Order> getOrders(Long userId) {
