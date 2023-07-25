@@ -1,0 +1,22 @@
+name: test
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set color
+        id: random-color-generator
+        run: echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
+      - name: Get color
+        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Get color
+        run: ${{needs.job1.outputs.SELECTED_COLOR}}
+    
