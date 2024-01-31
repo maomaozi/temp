@@ -10,6 +10,8 @@ jobs:
     steps:
     - uses: trstringer/manual-approval@v1
       with:
+        secret: ${{ github.TOKEN }}
+        approvers: maomaozi
         minimum-approvals: 1
         issue-title: "Use image for prod"
         issue-body: "<a href=\"\">hello</a>"
