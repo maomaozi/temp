@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: trstringer/manual-approval@v1
       with:
-        secret: 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
+        secret: ${{ github.TOKEN }}
         approvers: maomaozi
         minimum-approvals: 1
         issue-title: "Use image for prod"
