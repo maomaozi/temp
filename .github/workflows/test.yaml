@@ -17,4 +17,4 @@ jobs:
       id: version
     - name: Test
       run: |
-        echo ${{ steps.version.outputs.SHA }}
+        echo ${{ steps.version.outputs.UAT_SHA }}
