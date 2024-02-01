@@ -13,7 +13,7 @@ jobs:
       
     - name: Retrieve version
       run: |
-        echo "UAT_SHA=$(git rev-parse master)" >> $GITHUB_OUTPUT
+        echo "UAT_SHA=$(git rev-parse main)" >> $GITHUB_OUTPUT
       id: version
     - name: Test
       run: |
