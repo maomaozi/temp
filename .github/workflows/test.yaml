@@ -8,13 +8,10 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-    - uses: trstringer/manual-approval@v1
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: maomaozi
-        minimum-approvals: 1
-        issue-title: "Use image for prod"
-        issue-body: "<a href=\"\">hello</a>"
-        additional-approved-words: ''
-        additional-denied-words: ''
-    
+    - name: Retrieve version
+      run: |
+        echo "UAT_SHA=$(git rev-parse ${{ vars.UAT_BRANCH }})" >> $GITHUB_OUTPUT
+      id: version
+    - name: Test
+      run: |
+        echo ${{ steps.version.outputs.SHA }}
