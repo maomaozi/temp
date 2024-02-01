@@ -10,11 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       name: Checkout code
-      with:
-        ref: ${{ vars.UAT_BRANCH }}
+      
     - name: Retrieve version
       run: |
-        echo "UAT_SHA=$(git rev-parse ${{ vars.UAT_BRANCH }})" >> $GITHUB_OUTPUT
+        echo "UAT_SHA=$(git rev-parse master)" >> $GITHUB_OUTPUT
       id: version
     - name: Test
       run: |
