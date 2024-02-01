@@ -8,6 +8,10 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+      name: Checkout code
+      with:
+        ref: ${{ vars.UAT_BRANCH }}
     - name: Retrieve version
       run: |
         echo "UAT_SHA=$(git rev-parse ${{ vars.UAT_BRANCH }})" >> $GITHUB_OUTPUT
