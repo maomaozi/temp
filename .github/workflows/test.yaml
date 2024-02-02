@@ -1,20 +1,37 @@
 name: test
 
+run-name: update prod image
+
 on:
   workflow_dispatch:
-  push:
-  
+    inputs:
+      sha:
+        description: '手动指定提交hash'
+        required: false
+
 jobs:
-  job1:
+  test_and_build:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      name: Checkout code
       
-    - name: Retrieve version
-      run: |
-        echo "UAT_SHA=$(git rev-parse main)" >> $GITHUB_OUTPUT
-      id: version
-    - name: Test
-      run: |
-        echo ${{ steps.version.outputs.UAT_SHA }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout code
+          
+      - name: Retrieve version
+        run: |
+          if git rev-parse "${{ inputs.sha }}" >/dev/null 2>&1; then
+            SHA=$(git rev-parse "${{ inputs.sha }}" 2>/dev/null)
+            TYPE=$(git cat-file -t "$SHA")
+            if [ "$TYPE" = "commit" ]; then
+              echo "IMAGE_TAG=$SHA" >> $GITHUB_OUTPUT
+            else
+              echo "SHA $SHA is not a commit"
+            fi
+            else
+              echo "SHA $SHA is not a valid commit."
+          fi
+        id: version
+
+      - name: Checkout ArgoCD app repository
+        run: |
+          echo ${{ steps.version.outputs.IMAGE_TAG }}
