@@ -19,7 +19,7 @@ jobs:
           
       - name: Retrieve version
         run: |
-          if git rev-parse "${{ inputs.sha }}" >/dev/null 2>&1; then
+          if git rev-parse "${{ inputs.sha }}"; then
             SHA=$(git rev-parse "${{ inputs.sha }}" 2>/dev/null)
             TYPE=$(git cat-file -t "$SHA")
             if [ "$TYPE" = "commit" ]; then
