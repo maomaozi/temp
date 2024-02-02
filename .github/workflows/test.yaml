@@ -25,10 +25,10 @@ jobs:
             if [ "$TYPE" = "commit" ]; then
               echo "IMAGE_TAG=$SHA" >> $GITHUB_OUTPUT
             else
-              echo "SHA $SHA is not a commit"
+              echo "SHA ${{ inputs.sha }} is not a commit"
             fi
-            else
-              echo "SHA $SHA is not a valid commit."
+          else
+            echo "SHA ${{ inputs.sha }} is not a valid commit."
           fi
         id: version
 
